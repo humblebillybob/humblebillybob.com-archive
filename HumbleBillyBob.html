@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+<script type="text/javascript">
+  // This is a CodeSandbox injection script that's used to
+  // add navigation and inspector functionality to the preview
+  (function () {
+    // 1) Get the <script> tag that's currently running:
+    var me = document.currentScript;
+
+    // 2) Create the blocking‐style <script> to load:
+    var script = document.createElement("script");
+    script.src = "https://codesandbox.io/p/preview-protocol.js";
+
+    // By default a dynamically‐inserted <script> is async=true.
+    // Turn async off to make it behave like a normal blocking <script>:
+    script.async = false;
+    // (Do NOT set defer.)
+
+    // 3) Insert it immediately after the current <script>:
+    me.parentNode.insertBefore(script, me);
+  })();
+
+  const isIFramePreview = window.top !== window.self;
+
+  // Only run this script in editor context
+  if (isIFramePreview) {
+    // This script is used to enable Chrome DevTools functionality
+    (function () {
+      var script = document.createElement("script");
+      script.src =
+        "https://codesandbox.io/p/chrome-devtool/protocol/index.js";
+
+      script.onload = () => {
+        const devtoolProtocol = window.chobitsu;
+        if (devtoolProtocol) {
+          window.addEventListener("message", (event) => {
+            const { type, data } = event.data;
+
+            if (type === "FROM_DEVTOOL") {
+              devtoolProtocol.sendRawMessage(data);
+            }
+          });
+
+          devtoolProtocol.setOnMessage((data) => {
+            if (data.includes('"id":"tmp')) {
+              return;
+            }
+
+            window.parent.postMessage({ type: "TO_DEVTOOL", data }, "*");
+          });
+
+          devtoolProtocol.sendRawMessage(
+            `{"id":5,"method":"Runtime.enable","params":{}}`
+          );
+        }        
+      }
+
+      (document.head || document.documentElement).prepend(script);
+    })();
+  }
+
+  if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === "undefined") {
+    let nextID = 0;
+    let hook = (__REACT_DEVTOOLS_GLOBAL_HOOK__ = {
+      renderers: new Map(),
+      supportsFiber: true,
+      inject: (renderer) => {
+        const id = nextID++;
+        hook.renderers.set(id, renderer);
+        return id;
+      },
+      onScheduleFiberRoot() {},
+      onCommitFiberRoot() {},
+      onCommitFiberUnmount() {},
+    });
+  }
+
+  document.currentScript.remove();
+</script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="If you need a web designer with an sharp eye for design, 20 years of graphic design experience and 6 years CTO experience designing and implementing UI/UX, from concept to MVP, utilizing HTML, PHP, CSS, vanilla Javascript, jQuery, Wordpress, LAMP stack management, and the like, then I am your man.  ">
+    <meta name="author" content="Billy Bob Bowin">
+    <meta name="copyright" content="humblebillybob.com" />
+
+	<meta property="og:image"  content="http://humblebillybob.com//img/assets/HBB_bigwheel-256.png" />
+	<meta property="og:title"  content="HumbleBillyBob.com" />
+	<meta property="og:site_name" content="HumbleBillyBob"/>
+	<meta property="og:url"  content="http://HumbleBillyBob.com/" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description"  content="If you need a web designer with an sharp eye for design, 20 years of graphic design experience and 6 years CTO experience designing and implementing UI/UX, from concept to MVP, utilizing HTML, PHP, CSS, vanilla Javascript, jQuery, Wordpress, LAMP stack management, and the like, then I am your man.  " />
+
+	<!-- twitter card -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="HumbleBillyBob.com">
+	<meta name="twitter:creator" content="@HumbleBillyBob">
+	<meta name="twitter:title" content="HumbleBillyBob.com">
+	<meta name="twitter:description" content="If you need a web designer with an sharp eye for design, 20 years of graphic design experience and 6 years CTO experience designing and implementing UI/UX, from concept to MVP, utilizing HTML, PHP, CSS, vanilla Javascript, jQuery, Wordpress, LAMP stack management, and the like, then I am your man.  ">
+	<meta name="twitter:image:src" content="http://humblebillybob.com//img/assets/HBB_bigwheel-256.png" />
+
+<!-- 	favicons -->
+	<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16">
+	<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="favicon-56x56.png" sizes="56x56">
+	<meta host="<br />
+<b>Warning</b>:  Undefined variable $http_host in <b>/project/sandbox/index.php</b> on line <b>37</b><br />
+">
+
+
+<!-- ============================================================================================ -->
+<!-- __________.__.__  .__          __________      ___.     __________              .__         -->
+<!-- \______   \__|  | |  | ___.__. \______   \ ____\_ |__   \______   \ ______  _  _|__| ____   -->
+<!--  |    |  _/  |  | |  |<   |  |  |    |  _//  _ \| __ \   |    |  _//  _ \ \/ \/ /  |/    \  -->
+<!--  |    |   \  |  |_|  |_\___  |  |    |   (  <_> ) \_\ \  |    |   (  <_> )     /|  |   |  \ -->
+<!--  |______  /__|____/____/ ____|  |______  /\____/|___  /  |______  /\____/ \/\_/ |__|___|  / -->
+<!--         \/             \/              \/           \/          \/                      \/  -->
+<!-- ============================================================================================ -->
+<!-- ============================================================================================ -->
+
+
+<!-- GA Tracking -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64031602-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <title>HumbleBillyBob</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/agency.css?version-1.1" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700,800,900' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top" class="index">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">
+<!-- 	                <img src="http://<br />
+<b>Warning</b>:  Undefined variable $http_host in <b>/project/sandbox/index.php</b> on line <b>101</b><br />
+/img/assets/HBB_bigwheel-256.png"> -->
+	                Billy Bob Bowin
+	                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#services">Skills</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#portfolio">Portfolio</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    <li>
+                        <!-- <a class="page-scroll" href="#team">Team</a> -->
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
+                     <li>
+                        <!-- <a class="page-scroll" href="http://humblebillybob.com/billy-bob-bowin-resume.pdf" target="_blank">My CV</a> -->
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-lead-in">Graphics | Web | Dev | UI/UX </div>
+                <div id="HBB_quote" class="intro-heading"></div>
+                 <div class="HBB_quote_attribute">-Paul Rand</div>
+                <a href="#services" class="page-scroll btn btn-xl">Tell Me More</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Services Section -->
+    <section id="services" class="big_wheel">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Skills</h2>
+                    <h3 class="section-subheading text-muted">Other than my superfly Big Wheel tricks. </h3>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-code fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Web Dev</h4>
+                    <p class="text-muted">ASP.Net MVC, PHP, Wordpress, JS frameworks of differing flavors, Umbraco, and anything that Stackoverflow has a post about as needs arise. I believe development is an ongoing learning process. Intellectual curiosity is what makes a good developer. </p>
+                </div>
+								<div class="col-md-3">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">UI/UX</h4>
+                    <p class="text-muted">Clean intuitive user interfaces with an emphasis on thoughtful streamlined user experiences. I am fluent in the latest in prototyping tools, primarily Adobe XD in conjunction with the entire Creative Cloud suite.</p>
+                </div>
+                <div class="col-md-3">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-mobile fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Responsive Design</h4>
+                    <p class="text-muted">Applying industry standards in a quest for seamless transitions between desktop, mobile, and large format displays. Maintaining brand integrity for users across all devices.</p>
+                </div>
+                <div class="col-md-3">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-paint-brush fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Graphics</h4>
+                    <p class="text-muted">Less is more. Unless more is required. Then more is perfect. Keeping in mind that negative space is a design element. I've been working in all of Adobe's products since the mid 90's. </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid Section -->
+    <section id="portfolio" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Portfolio</h2>
+                    <h3 class="section-subheading text-muted">More examples available upon request.</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal0" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-expand fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/astute/A-glyph-only-blk.svg" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Astute</h4>
+                        <p class="text-muted"></p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-expand fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/stackerdecks/stackerdecks-cover.jpg" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Stackerdecks</h4>
+                        <p class="text-muted"></p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-expand fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/gamedayr/gamedayr-cover.jpg" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Gamedayr.com</h4>
+                        <p class="text-muted"></p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-expand fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/freelance/projector-cover.jpg" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Freelance</h4>
+                        <p class="text-muted"></p>
+                    </div>
+                </div>
+<!--
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-expand fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/golden.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Golden</h4>
+                        <p class="text-muted">Website Design</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal5" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-expand fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/escape.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Escape</h4>
+                        <p class="text-muted">Website Design</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal6" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-expand fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/portfolio/dreams.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Dreams</h4>
+                        <p class="text-muted">Website Design</p>
+                    </div>
+                </div>
+-->
+            </div>
+        </div>
+<!--
+        <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h3 class="section-heading">Embedded Stackerdeck</h3>
+                    <h3 class="section-subheading text-muted">This is an example of a fully functional embed.</h3>
+                </div>
+            </div>
+        <div class="SD_embedded-deck" style="max-width: 500px; margin: 0 auto;">
+	        <div id="NjlzMzI5Nw==" class="stackit" style="margin-bottom: 0px !important;">If you're having trouble viewing this Stackerdecks post: <a href="http://stackerdecks.com/humblebillybob/collection/geeky/deck/forget-star-wars-whos-ready-for-star-trek/author/humblebillybob" target="_blank">Click Here</a></div><script type="text/javascript" src="//stackerdecks.com/js/embedit.js" async></script>
+        </div>
+-->
+    </section>
+ <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">About Me</h2>
+                    <h3 class="section-subheading text-muted">Let's time travel together... Please mind the grandfather paradox.</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="timeline">
+	                     
+	                      <li class="adout_block" style="background: url(http://<br />
+<b>Warning</b>:  Undefined variable $http_host in <b>/project/sandbox/about-module.php</b> on line <b>14</b><br />
+/img/about/emplifi-about-bg-01.jpg) 100% 0 / 50% no-repeat;">
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="img/about/emplifi-glyph.jpg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Emplifi | 2016 - Present</h4>
+                                    <h4 class="subheading">Design Studio Art Director</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">In June of 2021 Astute, along with 2 recently acquired companies (iperceptions, Socialbakers), rebranded as Emplifi, an industry leader in end-to-end omnichannel CX software across Care, Marketing/Social, and Commerce. Since being promoted to Art Director for the marketing team in 2020, I was tasked with managing the rebranding and rollout, I've manage multiple agencies, employees, and projects across the marketing team as well as the company. Working closely with our CMO and other stakeholders, I have helped bring to market many assets and campaigns with creativity while ensuring brand integrity in all our GTM strategies. I touch everything representing the outward facing brand experience from events, video production and the website, to things as mundane as letterhead and business cards. ;) Additionally, in this roll I've had the opportunity of working with teams and people across a variety of backgrounds, nationalities, locations, departments, and levels within the corporate hierarchy.
+</p>
+                                </div>
+                            </div>
+                        </li>
+
+	                     
+	                     <li class="timeline-inverted adout_block" style="background: url(http://<br />
+<b>Warning</b>:  Undefined variable $http_host in <b>/project/sandbox/about-module.php</b> on line <b>31</b><br />
+/img/portfolio/astute/homepageUpdate.jpg) 0% 0 / 50% no-repeat;">
+                            <div class="timeline-image" style="background-color:#ffffff;">
+                                <img class="img-circle img-responsive" src="img/portfolio/astute/A-glyph-only.svg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Astute | 2016 - 2020</h4>
+                                    <h4 class="subheading">Web Developer / Graphic Designer</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">In my current position I build, maintain, and expand web assets including the CMS platform that <a href="https://astutesolutions.com" target="_blank">AstuteSolutins.com</a> is built on. In addition, I design, build, implement and maintain branding and collateral, both print and web, across the company. I recently designed the entire rebranding of the company, prototyped and built the update to the website, and implemented the new brand guide across the company.
+</p>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="adout_block" style="background: url(http://<br />
+<b>Warning</b>:  Undefined variable $http_host in <b>/project/sandbox/about-module.php</b> on line <b>47</b><br />
+/img/about/bg1.jpg) 100% 0 / 50% no-repeat;">
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="img/about/1.jpg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Stackerdecks | 2012 - 2016</h4>
+                                    <h4 class="subheading">Co-Founder / CTO</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Designed and built <a href="http://stackerdecks.com" target="_blank">Stackerdecks.com</a>, a complex, responsive piece of tech, from original concept, design artwork and wireframes, to the launch of multiple products across web and mobile.
+Stackerdecks is a social media platform and cutting-edge slideshow technology.
+Stackerdecks allows users to collect any social media post, blog post, product page, memes, animated GIF and more into a slideshow, using a simple bookmarklet, or Chrome/Safari extension.
+</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted adout_block" style="background: url(http://<br />
+<b>Warning</b>:  Undefined variable $http_host in <b>/project/sandbox/about-module.php</b> on line <b>64</b><br />
+/img/about/bg2.jpg) 0% 0 / 50% no-repeat;">
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="img/about/2.jpg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Gamedayr.com | 2010 - 2013</h4>
+                                    <h4 class="subheading">CTO, Graphic Designer,  Web Developer</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Architected and implemented all the graphic and web design, including HTML, PHP, CSS, vanilla Javascript, jQuery, Wordpress, LAMP stack management for the first version of the website.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="adout_block" style="background: url(http://<br />
+<b>Warning</b>:  Undefined variable $http_host in <b>/project/sandbox/about-module.php</b> on line <b>78</b><br />
+/img/about/bg3.jpg) 100% 0 / 50% no-repeat;">
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="img/about/3.jpg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Freelance | 1996 - 2010</h4>
+                                    <h4 class="subheading">Graphic Designer</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Creating print/web graphics and web sites for international and local clientele. </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted adout_block" style="background: url(http://<br />
+<b>Warning</b>:  Undefined variable $http_host in <b>/project/sandbox/about-module.php</b> on line <b>92</b><br />
+/img/about/bg4.jpg) 0% 0 / 50% no-repeat;">
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="img/about/4.jpg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Teenage Punk - 1996</h4>
+                                    <h4 class="subheading">Worker Bee</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Picking'em up and puttin'em down, to the delight of managers and supervisors all around the greater Miami area. All while cutting my teeth on the computers and software of the time.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <div class="rocket"><i class="fa fa-rocket fa-inverse"></i></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Team Section -->
+    <!-- <section id="team" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">My Trusted Guru Crew</h2>
+                    <h3 class="section-subheading text-muted">These are the folks I work with and trust.</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="team-member">
+                        <img src="img/team/1.jpg" class="img-responsive img-circle" alt="">
+                        <h4>John Murray</h4>
+                        <p class="text-muted">SobeTech</p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="mailto:john.murray@sobetech.com?Subject=Inquery%20from%20humblebillybob.com"><i class="fa fa-paper-plane"></i></a>
+                            </li>
+                            <li><a href="https://www.facebook.com/SobetechLLC/" target="_blank"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="https://www.linkedin.com/in/john-murray-6115661" target="_blank"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="team-member">
+                        <img src="img/team/2.jpg" class="img-responsive img-circle" alt="">
+                        <h4>Nancy Passarelli</h4>
+                        <p class="text-muted">Social Media Manager</p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="mailto:nancypassarelli@gmail.com?Subject=Inquery%20from%20humblebillybob.com"><i class="fa fa-paper-plane"></i></a>
+                            </li>
+                            <li><a href="https://www.facebook.com/nancypassarelli70" target="_blank"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="https://www.linkedin.com/in/nancy-passarelli-b7304157" target="_blank"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="team-member">
+                        <img src="img/team/3.jpg" class="img-responsive img-circle" alt="">
+                        <h4>Scott Wilson</h4>
+                        <p class="text-muted">Backend Developer</p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="mailto:swilson123@gmail.com?Subject=Inquery%20from%20humblebillybob.com"><i class="fa fa-paper-plane"></i></a>
+                            </li>
+                            <li><a href="http://www.facebook.com/scwilson123" target="_blank"><i class="fa fa-facebook"></i></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <p class="large text-muted">As my grandfather once said, "Part of being smart is knowing what your dumb at." These people simply make me smarter.</p>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Clients Aside -->
+<!--
+    <aside class="clients">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <a href="#">
+                        <img src="img/logos/envato.jpg" class="img-responsive img-centered" alt="">
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="#">
+                        <img src="img/logos/designmodo.jpg" class="img-responsive img-centered" alt="">
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="#">
+                        <img src="img/logos/themeforest.jpg" class="img-responsive img-centered" alt="">
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="#">
+                        <img src="img/logos/creative-market.jpg" class="img-responsive img-centered" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </aside>
+-->
+  <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-right">
+                    <h2 class="section-heading">Contact Me</h2>
+                    <h3 class="section-subheading text-muted" style="color: #fff;">Even if you just want me to color you a pretty picture while we have a beer. <br><br>References and CV available upon request.<!-- <i class="fa fa-beer fa-stack-1x fa-inverse"></i> --></h3>
+                    
+                                                   <a href="/cdn-cgi/l/email-protection#0f6d666363764f677a626d6a636d666363766d606d216c6062307c7a6d656a6c7b324e7b7b6a617b6660612f4d666363762121212f5c60626a60616a2f667c2f7d6a6e6c676661682f607a7b2f697d60622f76607a7d2f786a6d7c667b6a2e2f3526"> <button type="submit" class="btn btn-xl">Send Message</button> </a>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <form name="sentMessage" id="contactForm" novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+<!--                                     <input type="text" class="form-control" placeholder="Your Name *" id="name" required data-validation-required-message="Please enter your name."> -->
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group">
+<!--                                     <input type="email" class="form-control" placeholder="Your Email *" id="email" required data-validation-required-message="Please enter your email address."> -->
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group">
+<!--                                     <input type="tel" class="form-control" placeholder="Your Phone *" id="phone" required data-validation-required-message="Please enter your phone number."> -->
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+<!--                                     <textarea class="form-control" placeholder="Your Message *" id="message" required data-validation-required-message="Please enter a message."></textarea> -->
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-lg-12 text-center">
+                                <div id="success"></div>
+<!--                                 <button type="submit" class="btn btn-xl">Send Message</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="copyright">&copy; HumbleBillyBob.com 2025</span>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline social-buttons">
+                        <!-- <li><a href="https://twitter.com/humblebillybob" target="_blank"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="https://www.facebook.com/humblebillybob" target="_blank"><i class="fa fa-facebook"></i></a>
+                        </li> -->
+                        <li><a href="http://instagram.com/humblebillybob/" target="_blank"><i class="fa fa-instagram"></i></a>
+                        </li>
+                        <li><a href="https://www.linkedin.com/in/billy-bowin-79343a19" target="_blank"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline quicklinks">
+                        <li><a href="#"></a>
+                        </li>
+                        <li><a href="#"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+    <!-- Portfolio Modals -->
+<!-- Portfolio Modal 2 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal0" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                             <!-- Project Details Go Here -->
+                            <h2>Astute</h2>
+                            <p class="item-intro text-muted">Web Dev | Web Design | Graphic Design</p>
+                            <img class="img-responsive" src="img/portfolio/astute/astute-logo-horz-color.svg" alt="" style="max-height: 100px;">
+                            <h3>B2B software development company.</h3>
+
+                            <p>I built and maintained Astute's website and Customer Center leveraging technologies such as ASP.Net MVC, Umbraco, Durandal.js, Knockout.js. I've been the primary graphic designer for all resource collateral and recently implemented a complete rebrand.
+</p>
+
+                            <ul class="list-inline">
+                                <li>2016 - Present</li>
+                                <li>|</li>
+                                <li>Sofware Development</li>
+                                <li>|</li>
+                                <li>Employee</li>
+                            </ul>
+
+                             <h3 style="margin-bottom: 20px;">astutesolutions.com redesign</h3>
+                            <div class="modal_images_box">
+
+	                           	<div class="modal_image" style="margin:40px; max-width: calc(100% - 20px);">
+	                            	<div class="inside-caption">
+										<h4>Astute Website Redesign and Implementation</h4>
+                       					 <div class="text-muted inside">To experience all the interactive elements please visit <a href="https://astutesolutions.com"> astutesolutions.com</a>.</div>
+                    				</div>
+                             		<div class="portfolio_img_box" style="border: 1px solid #ddd;">
+							 			<img class="img-responsive" src="img/portfolio/astute/astuteHomepage.jpg" alt="">
+                            		</div>
+	                           	</div>
+
+	                           	<!-- <div class="modal_image">
+                            		<div class="inside-caption">
+										<h4>Custom Login Screen</h4>
+										<div class="text-muted inside"></div>
+                    				</div>
+									<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/gamedayr/gamedayr-login_screen.jpg" alt="">
+                            		</div>
+                            	</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            </div>
+
+	                        <div style="clear: both"></div>
+
+
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  <!-- Portfolio Modal 1 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2>Stackerdecks</h2>
+                            <p class="item-intro text-muted">UI/UX | Design | Project Management</p>
+                            <img class="img-responsive" src="img/portfolio/stackerdecks/SD_logo.png" alt="">
+                            <h3>A fully realized platform</h3>
+                  
+                            <p>I designed and built <a href="http://Stackerdecks.com/" target="_blank">Stackerdecks.com</a>, a complex, responsive piece of tech, from original concept, design artwork and wireframes, to the launch of multiple products across web and mobile.
+Stackerdecks is a social media platform and cutting-edge slideshow technology.
+Stackerdecks allows users to collect any social media post, blog post, product page, memes, animated GIF and more into a slideshow, using a simple bookmarklet, or Chrome/Safari extension.
+Stackerdecks are embeddable across the web and sharable across multiple social media platforms.
+Built and implemented all UI/UX.
+Designed all web/print product and marketing collateral.
+Managed, software engineers, server administrators, and colleagues.
+Managed projects within specified timelines, and executed multiple project tasks with tight deadlines, while prioritizing competing deadlines and multi-tasks.
+</p>
+                           
+                            <ul class="list-inline">
+                                <li>2012 - 2016</li>
+                                <li>|</li>
+                                <li>Startup</li>
+                                <li>|</li>
+                                <li>Entrepreneurial</li>
+                            </ul>
+                            
+                            
+                             <h3 style="margin-bottom: 20px;">Stackerdecks Embed Current Version</h3>
+                            <div class="modal_images_box">
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Embed Cover</h4>
+                       					 <div class="text-muted inside">Current release version of the Stackerdecks Embed cover.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/stackerdecks/SD_current_embed_closed.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image"> 
+                            		<div class="inside-caption">
+										<h4>Embed Cover Edit Mode</h4>
+										<div class="text-muted inside">Current release version of the Stackerdecks Embed cover in edit mode. We engineered Edit Mode to support real time in line edits for all elements and media.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/stackerdecks/SD_current_embed_closed-edit.jpg" alt="">
+                            		</div>
+								</div>
+                            	
+                            	<div class="modal_image"> 
+                            		<div class="inside-caption">
+										<h4>Embed Open</h4>
+										<div class="text-muted inside">Current release version of the Stackerdecks Embed in Slideshow view. This image shows the interface incorporating an Instagram embed. It also is one of my homies that is pretty awesome at painting. Check him out at <a href="http://www.damonpla.com/" target="_blank">DamonPla.com</a>.</div>
+                    				</div>
+									<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/stackerdecks/SD_current_embed_open.jpg" alt="">
+                            		</div>
+                            	</div>
+                           
+
+                            	<div class="modal_image"> 
+                            		<div class="inside-caption">
+										<h4>Embed Open Edit Mode</h4>
+										<div class="text-muted inside">Current release version of the Stackerdecks Embed in Slideshow view Edit Mode. Again, all elements are inline and real time editable.</div>
+                    				</div>
+									<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/stackerdecks/SD_current_embed_open-edit.jpg" alt="">
+                            		</div>
+                            	</div>
+                            	
+                            	
+                            	
+                            </div>
+                            
+                            
+	                        <div style="clear: both"></div>
+	                        
+	                        <h3 style="margin-bottom: 20px;">Stackerdecks Embed Version 2 Mockups</h3>
+                            <div class="modal_images_box">
+                       		
+	                           	<div class="modal_image">
+	                          	  <div class="inside-caption">
+										<h4>Embed Cover</h4>
+										<div class="text-muted inside">Future version of the Stackerdecks Embed cover.</div>
+                    				</div>
+									<div class="portfolio_img_box">
+										<img class="img-responsive" src="img/portfolio/stackerdecks/SD_v2_embed_closed.jpg" alt="">
+									</div>
+	                           	</div>
+								
+								<div class="modal_image">
+									<div class="inside-caption">
+										<h4>Embed Cover Edit Mode</h4>
+										<div class="text-muted inside">Future version of the Stackerdecks Embed cover Edit Mode. Like the current version this will maintain realtime inline editing.</div>
+                    				</div>
+									<div class="portfolio_img_box">
+										<img class="img-responsive" src="img/portfolio/stackerdecks/SD_v2_embed_closed-edit.jpg" alt="">
+									</div>
+								</div>
+								
+								<div class="modal_image">
+									<div class="inside-caption">
+										<h4>Embed Open</h4>
+										<div class="text-muted inside">Future version of the Stackerdecks Embed in Slideshow view. In this mockup I have resolved the disconnect of the cover and the content from the current version by using transitions to bring the cover to a header for the entirety of the embed.</div>
+                    				</div>
+									<div class="portfolio_img_box">
+										<img class="img-responsive" src="img/portfolio/stackerdecks/SD_v2_embed_open.jpg" alt="">
+									</div>
+								</div>
+								
+								<div class="modal_image">
+									<div class="inside-caption">
+										<h4>Embed Open Edit Mode</h4>
+										<div class="text-muted inside">Future version of the Stackerdecks Embed in Slideshow view Edit Mode. Simplified the options, and made the exiting call to action clearer.</div>
+                    				</div>
+									<div class="portfolio_img_box">
+										<img class="img-responsive" src="img/portfolio/stackerdecks/SD_v2_embed_open-edit.jpg" alt="">
+									</div>
+								</div>
+								
+								<div class="modal_image">
+									<div class="inside-caption">
+										<h4>Embed Edit Mode Menu</h4>
+										<div class="text-muted inside">A consolidated and clear menu for all the options related to the individual Card.</div>
+                    				</div>
+									<div class="portfolio_img_box">
+										<img class="img-responsive" src="img/portfolio/stackerdecks/SD_v2_embed_open-edit-menu.jpg" alt="">
+									</div>
+								</div>
+								
+<!--
+								<div class="modal_image">
+									<div class="inside-caption">
+										<h4>Embed Edit Mode Reorder Cards</h4>
+										<div class="text-muted inside">The redesigned edit cards modal mockup includes interactive numbered bar at the top for easy drag and drop reordering while maintaining the ability to focus on individual cards no matter how many pieces of content the Stackerdeck may hold. </div>
+                    				</div>
+									<div class="portfolio_img_box">
+										<img class="img-responsive" src="img/portfolio/stackerdecks/SD_v2_embed_open-edit-reorder.jpg" alt="">
+									</div>
+								</div>
+								
+								<div class="modal_image">
+									<div class="inside-caption">
+										<h4>Embed Edit Mode Update Deck Modal</h4>
+										<div class="text-muted inside">A cleaner and simpler modal overlay for finishing your Stackerdeck edits.</div>
+                    				</div>
+									<div class="portfolio_img_box">
+										<img class="img-responsive" src="img/portfolio/stackerdecks/SD_v2_embed_open-edit-modal.jpg" alt="">
+									</div>
+								</div>
+								
+								<div class="modal_image">
+									<div class="inside-caption">
+										<h4>Embed Edit Add To Collection Menu</h4>
+										<div class="text-muted inside">The modal overlay for adding a Stackerdeck to a Collection.</div>
+                    				</div>
+									<div class="portfolio_img_box">
+										<img class="img-responsive" src="img/portfolio/stackerdecks/SD_v2_embed_open-edit-collections.jpg" alt="">
+									</div>
+								</div>
+-->
+                            
+
+                            </div>
+                            
+                            <div style="clear: both;margin:20px;"></div>
+                            
+                            
+                            <h3 style="margin-bottom: 20px;">Stackerdecks Social Platform</h3>
+                            <div class="inside-caption">
+								<h4>Stackerdecks.com</h4>
+                       			<div class="text-muted inside">A fully functional social platform for viewing and managing your Stackerdecks embeds and Collections.</div>
+                    		</div>
+                            <div class="portfolio_img_box">
+								<img class="img-responsive" src="img/portfolio/stackerdecks/SD_homepage.jpg" alt="">
+							</div>
+							
+							<div class="inside-caption">
+								<h4>Stackerdecks.com Profile Page</h4>
+                       			<div class="text-muted inside">The profile page is where you go to see your feed, timeline, manage your Stackerdecks, and manage your Collections. The profile has fully customizable avatars and banners, as well as meta and social medial links.</div>
+                    		</div>
+                            <div class="portfolio_img_box">
+								<img class="img-responsive" src="img/portfolio/stackerdecks/SD_current_site_profile.jpg" alt="">
+							</div>
+							
+							<div class="inside-caption">
+								<h4>Stackerdecks.com Collection Page</h4>
+                       			<div class="text-muted inside">Just like the profile page, but customizable independently. Also embeddable this allows a user to maintain multiple personas or brands under one account.</div>
+                    		</div>
+                            <div class="portfolio_img_box">
+								<img class="img-responsive" src="img/portfolio/stackerdecks/SD_current_site_collection.jpg" alt="">
+							</div>
+
+							
+							<div style="clear: both; margin:20px;"></div>
+                            
+                            <button type="button" class="btn btn-xl" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Portfolio Modal 2 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                             <!-- Project Details Go Here -->
+                            <h2>Gamedayr.com</h2>
+                            <p class="item-intro text-muted">Web Design | Design | Dev</p>
+                            <img class="img-responsive" src="img/portfolio/gamedayr/gamedayr-logo.png" alt="">
+                            <h3>Website with a network of sub-sites representing every 1A NCAA school</h3>
+                  
+                            <p>Architected and implemented all the graphic and web design, including HTML, PHP, CSS, vanilla Javascript, jQuery, Wordpress, LAMP stack management for the first version of the website.
+</p>
+                           
+                            <ul class="list-inline">
+                                <li>2010 - 2013</li>
+                                <li>|</li>
+                                <li>Startup</li>
+                                <li>|</li>
+                                <li>Entrepreneurial</li>
+                            </ul>
+                            
+                             <h3 style="margin-bottom: 20px;">Gamedayr.com Pre-2015 redesign</h3>
+                            <div class="modal_images_box">
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Homepage</h4>
+<!--                        					 <div class="text-muted inside">The landing and home page of the site that displayed the latest featured posts and .</div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/gamedayr/gamedayr-homepage.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image"> 
+                            		<div class="inside-caption">
+										<h4>Custom Login Screen</h4>
+<!-- 										<div class="text-muted inside"></div> -->
+                    				</div>
+									<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/gamedayr/gamedayr-login_screen.jpg" alt="">
+                            		</div>
+                            	</div>
+	                           	
+	                           	<div class="modal_image"> 
+                            		<div class="inside-caption">
+										<h4>Profile Page</h4>
+<!-- 										<div class="text-muted inside"></div> -->
+                    				</div>
+									<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/gamedayr/profile_page.jpg" alt="">
+                            		</div>
+                            	</div>
+                            	
+                            	<div class="modal_image"> 
+                            		<div class="inside-caption">
+										<h4>Add Article Page</h4>
+<!-- 										<div class="text-muted inside"></div> -->
+                    				</div>
+									<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/gamedayr/add_article_page.jpg" alt="">
+                            		</div>
+                            	</div>
+	                           	
+	                           	<div class="modal_image"> 
+                            		<div class="inside-caption">
+										<h4>University of Cincinnati Homepage</h4>
+<!-- 										<div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/gamedayr/uc-homepage.jpg" alt="">
+                            		</div>
+								</div>
+                            	
+                            	<div class="modal_image"> 
+                            		<div class="inside-caption">
+										<h4>University of Florida Homepage</h4>
+<!-- 										<div class="text-muted inside"></div> -->
+                    				</div>
+									<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/gamedayr/uf-homepage.jpg" alt="">
+                            		</div>
+                            	</div>
+                           
+                            	
+                           
+                            	
+                         
+                            	
+                            	
+                            	
+                            </div>
+                            
+                            
+	                        <div style="clear: both"></div>
+
+
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  <!-- Portfolio Modal 1 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2>Freelance</h2>
+                            <p class="item-intro text-muted">Web Design | Design | Dev</p>
+                            <img class="img-responsive" src="img/assets/HBB_bigwheel-256.png" alt="">
+                            <h3>Gun for hire.</h3>
+                  
+                            <p>Creating print/web graphics and websites for international and local clientele.</p>
+                           
+                            <ul class="list-inline">
+                                <li>1996 - Present</li>
+                                <li>|</li>
+                                <li>Print</li>
+                                <li>|</li>
+                                <li>Web</li>
+                            </ul>
+
+
+							<h3 style="margin-bottom: 20px;">Just A Few Examples</h3>
+                            <div class="modal_images_box">
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>4 Seasons</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/4seasons.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>American Typographic Convention Poster</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/atc-poster.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image" style="max-width: 100%;">                            
+	                            	<div class="inside-caption">
+										<h4>Brendan O'Hara - Embrace Chaos CD</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/b_embrace_chaos-mock-up.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image" style="max-width: 100%;">                            
+	                            	<div class="inside-caption">
+										<h4>Toy Time Recycled Logos</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/ttr-logo-minimal.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>About Last Night Mobile App</h4>
+                       					 <div class="text-muted inside">Android / iOS app UI/UX and all graphic assets.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/aln-splash.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>About Last Night Images Module</h4>
+                       					 <div class="text-muted inside">Images panel for the app.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/aln-images.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>About Last Night Menu</h4>
+                       					 <div class="text-muted inside">Populated menu slideout</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/aln-images-menu.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>A Cocktail Party Mobile App</h4>
+                       					 <div class="text-muted inside">Branding and Android / iOS app UI/UX and all graphic assets.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/acp-splash.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>A Cocktail Party Decks Module</h4>
+                       					 <div class="text-muted inside">Listing of the featured Deck(slideshow) posts.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/acp-decks-page.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>A Cocktail Party Single Deck Module</h4>
+                       					 <div class="text-muted inside">Single post display.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/acp-deck-page.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                          
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Lezioni Con Zia</h4>
+                       					 <div class="text-muted inside">Branding and print collateral.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/Erin_Elio.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Black Raven</h4>
+                       					 <div class="text-muted inside">Complete project. Including logos, branding, and marketing collateral.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/black-raven_ad.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Farm Fresh</h4>
+                       					 <div class="text-muted inside">Branding and print collateral.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/ff_logo.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Farm Fresh Annual Report</h4>
+                       					 <div class="text-muted inside">Inside page from the 2008 annual report.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/ff_Report_inside.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>RNDYLND Logo</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/rndylnd-logo-main.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>The Geek Table</h4>
+                       					 <div class="text-muted inside">Logo, branding, print collateral, and website.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/tgt-logo-txt.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Orange Yummy</h4>
+                       					 <div class="text-muted inside">Webpage Design</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/orange_yummy.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>New Horizons</h4>
+                       					 <div class="text-muted inside">Book Cover</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/new_horizonsbook_cover.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Logo-Graphs Logo</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/locgrapg-logo.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Aerocycle Logo</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/aerocycle.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Surf Road Tacos</h4>
+                       					 <div class="text-muted inside">Complete treatment from custom art to signage.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/surf-rd-banner.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Falcon Debate</h4>
+                       					 <div class="text-muted inside">Logo and t-shirt design.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/shirt-samples.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Stackermedia Logo</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/stacker-logo-blk-blu-bg.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>House Plant</h4>
+                       					 <div class="text-muted inside">Digital Illustration</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/houseplant.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Florida.nu Logo</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/florida_nu-logo.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>International Education Consultants Design Elements Sheet</h4>
+                       					 <div class="text-muted inside">Full treatment from logo design to print and web.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/iec_colorscheme.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image" style="max-width: 100%">                            
+	                            	<div class="inside-caption">
+										<h4>International Education Consultants Brochure</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/iec_brochure.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image" style="max-width: 100%">                            
+	                            	<div class="inside-caption">
+										<h4>International Education Webpage</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/iec_screenshot.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Green Living Logo</h4>
+                       					 <div class="text-muted inside">Logo design, stationary and print collateral.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/green-living-logo-color.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image">                            
+	                            	<div class="inside-caption">
+										<h4>Green Living Annual Report Cover</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/green-living-report-cover3.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image" style="max-width: 100%">                            
+	                            	<div class="inside-caption">
+										<h4>Green Living Stationary</h4>
+<!--                        					 <div class="text-muted inside"></div> -->
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/green-living-stationary.jpg" alt="">
+                            		</div>
+	                           	</div>
+	                           	
+	                           	<div class="modal_image"  style="max-width: 100%">                            
+	                            	<div class="inside-caption">
+										<h4>Joe's Tossed Salad Menu</h4>
+                       					 <div class="text-muted inside">Logo design, large format print collateral.</div>
+                    				</div>
+                             		<div class="portfolio_img_box">
+							 			<img class="img-responsive" src="img/portfolio/freelance/joes-salad-banner.jpg" alt="">
+                            		</div>
+	                           	</div>
+
+
+
+
+	                           	
+	                           	                            	
+                            	
+                            	
+                            </div>
+							
+							
+							<div style="clear: both; margin:20px;"></div>
+                            
+                            <button type="button" class="btn btn-xl" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   <!-- humblebillybob js -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/hbb.js?version-1.1"></script>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="js/classie.js"></script>
+    <script src="js/cbpAnimatedHeader.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/agency.js"></script>
+
+</body>
+
+</html>
